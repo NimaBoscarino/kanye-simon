@@ -17,6 +17,9 @@ class SimonTile extends Component{
   }
 
   handleClick() {
+
+    this.props.pushPattern(this.props.url)
+
     this.setState({
       url: 'build/' + this.props.url + '_light.png'
     }, () => {
@@ -34,16 +37,24 @@ class SimonTile extends Component{
 }
 
 class Simon extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      pattern: []
+    }
+  }
+
   render() {
     return (
       <div>
         <SimonContainer>
-          <SimonTile url='green' />
-          <SimonTile url='red' />
+          <SimonTile pushPattern={this.props.pushPattern} url='green' />
+          <SimonTile pushPattern={this.props.pushPattern} url='red' />
         </SimonContainer>
         <SimonContainer>
-          <SimonTile url='yellow' />
-          <SimonTile url='blue' />
+          <SimonTile pushPattern={this.props.pushPattern} url='yellow' />
+          <SimonTile pushPattern={this.props.pushPattern} url='blue' />
         </SimonContainer>
       </div>
     );
