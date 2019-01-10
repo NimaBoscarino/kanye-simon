@@ -55,7 +55,10 @@ class App extends Component {
         lit: pattern[x]
       })
       if (x++ < pattern.length) {
-        setTimeout(slowLoop, 2000);
+        setTimeout(slowLoop, 1000);
+      } else {
+        console.log('Im done')
+        this.socket.emit('donePlayback', {cool: 'story dude'});
       }
     }
 

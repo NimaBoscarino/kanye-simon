@@ -37,10 +37,12 @@ io.on('connection', function(socket){
     playPattern(message)
   });
 
+  socket.on('donePlayback', function (message, fn) {
+    console.log('donePlayback', message)
+  });
 
 });
 
-  
 
 http.listen(4000, function(){
   console.log('listening on *:3000');
