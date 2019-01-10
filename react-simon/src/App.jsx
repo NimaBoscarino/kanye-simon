@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import Simon from './Simon.jsx'
 import io from 'socket.io-client';
 
-
 class App extends Component {
   constructor(props) {
     super(props)
@@ -12,7 +11,8 @@ class App extends Component {
     this.state = {
       waiting: false,
       playerA: false,
-      pattern: []
+      pattern: [],
+      lit: null
     }
 
     this.handleStart = this.handleStart.bind(this)
@@ -24,7 +24,7 @@ class App extends Component {
     this.socket.on('connect', () => {
       this.socket.on('start', this.handleStart);
       this.socket.on('wait', this.handleWait);
-      this.socket.on('playPattern', this.playPattern)
+      this.socket.on('pattern', this.playPattern)
     })
   }
 
@@ -44,8 +44,26 @@ class App extends Component {
     })
   }
 
-  playPattern(message) {
+  playPattern({pattern}) {
+    console.log("RECEIVED PATTERN", pattern)
     console.log("PLAY THE PATTERN")
+
+    var x = 0;
+
+    let slowLoop = () => {
+      this.setState({
+        lit: pattern[x]
+      })
+      if (x++ < pattern.length) {
+        setTimeout(slowLoop, 2000);
+      }
+    }
+
+    setTimeout(slowLoop, 2000);
+
+    this.setState({
+      lit: null
+    })
   }
 
   handleSubmit() {
@@ -82,7 +100,7 @@ class App extends Component {
           )
         }
         </h1>
-        <Simon pushPattern={this.pushPattern} playerA={this.state.playerA} />
+        <Simon pushPattern={this.pushPattern} playerA={this.state.playerA} lit={this.state.lit}/>
       </div>
     );
   }

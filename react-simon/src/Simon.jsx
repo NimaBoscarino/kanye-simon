@@ -30,6 +30,12 @@ class SimonTile extends Component{
   }
 
   render() {
+    if (this.props.lit) {
+      return (
+        <img onClick={this.handleClick} src={'build/' + this.props.url + '_light.png'} />
+      )
+    }
+
     return (
       <img onClick={this.handleClick} src={this.state.url} />
     )
@@ -49,12 +55,12 @@ class Simon extends Component {
     return (
       <div>
         <SimonContainer>
-          <SimonTile pushPattern={this.props.pushPattern} url='green' />
-          <SimonTile pushPattern={this.props.pushPattern} url='red' />
+          <SimonTile lit={this.props.lit === 'green'} pushPattern={this.props.pushPattern} url='green' />
+          <SimonTile lit={this.props.lit === 'red'} pushPattern={this.props.pushPattern} url='red' />
         </SimonContainer>
         <SimonContainer>
-          <SimonTile pushPattern={this.props.pushPattern} url='yellow' />
-          <SimonTile pushPattern={this.props.pushPattern} url='blue' />
+          <SimonTile lit={this.props.lit === 'yellow'} pushPattern={this.props.pushPattern} url='yellow' />
+          <SimonTile lit={this.props.lit === 'blue'} pushPattern={this.props.pushPattern} url='blue' />
         </SimonContainer>
       </div>
     );
