@@ -19,6 +19,7 @@ class SimonTile extends Component{
   handleClick() {
 
     this.props.pushPattern(this.props.url)
+    this.props.pushPatternAttempt(this.props.url)
 
     this.setState({
       url: 'build/' + this.props.url + '_light.png'
@@ -55,12 +56,25 @@ class Simon extends Component {
     return (
       <div>
         <SimonContainer>
-          <SimonTile lit={this.props.lit === 'green'} pushPattern={this.props.pushPattern} url='green' />
-          <SimonTile lit={this.props.lit === 'red'} pushPattern={this.props.pushPattern} url='red' />
+          <SimonTile lit={this.props.lit === 'green'}
+            pushPattern={this.props.pushPattern}
+            pushPatternAttempt={this.props.pushPatternAttempt}
+            url='green'
+          />
+          <SimonTile lit={this.props.lit === 'red'}
+            pushPattern={this.props.pushPattern}
+            pushPatternAttempt={this.props.pushPatternAttempt}
+            url='red' />
         </SimonContainer>
         <SimonContainer>
-          <SimonTile lit={this.props.lit === 'yellow'} pushPattern={this.props.pushPattern} url='yellow' />
-          <SimonTile lit={this.props.lit === 'blue'} pushPattern={this.props.pushPattern} url='blue' />
+          <SimonTile lit={this.props.lit === 'yellow'} 
+            pushPattern={this.props.pushPattern}
+            pushPatternAttempt={this.props.pushPatternAttempt}
+            url='yellow' />
+          <SimonTile lit={this.props.lit === 'blue'}
+            pushPattern={this.props.pushPattern}
+            pushPatternAttempt={this.props.pushPatternAttempt}
+            url='blue' />
         </SimonContainer>
       </div>
     );

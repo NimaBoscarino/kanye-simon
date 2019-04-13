@@ -11,15 +11,19 @@ class App extends Component {
     this.state = {
       waiting: false,
       playerA: false,
+      playerBPlay: false,
       pattern: [],
+      patternAttempt: [],
       lit: null
     }
 
     this.handleStart = this.handleStart.bind(this)
     this.handleWait = this.handleWait.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleSubmitAttempt = this.handleSubmitAttempt.bind(this)
     this.playPattern = this.playPattern.bind(this)
     this.pushPattern = this.pushPattern.bind(this)
+    this.pushPatternAttempt = this.pushPatternAttempt.bind(this)
 
     this.socket.on('connect', () => {
       this.socket.on('start', this.handleStart);
@@ -59,6 +63,9 @@ class App extends Component {
       } else {
         console.log('Im done')
         this.socket.emit('donePlayback', {cool: 'story dude'});
+        this.setState({
+          playerBPlay: true
+        })
       }
     }
 
@@ -78,6 +85,14 @@ class App extends Component {
     console.log('asdasdasd')
   }
 
+  handleSubmitAttempt() {
+    const patternAttempt = this.state.patternAttempt
+    this.socket.emit('newPatternAttempt', {
+      pattern: patternAttempt
+    });
+    console.log('Submitted Attempt!')
+  }
+
   pushPattern(tile) {
     console.log(tile)
     this.setState({
@@ -86,6 +101,18 @@ class App extends Component {
         tile
       ]
     })
+  }
+
+  pushPatternAttempt(tile) {
+    console.log(tile)
+    if (this.state.playerBPlay) {
+      this.setState({
+        patternAttempt: [
+          ...this.state.patternAttempt,
+          tile
+        ]
+      })
+    }
   }
 
   render() {
@@ -102,8 +129,25 @@ class App extends Component {
             null
           )
         }
+        {
+          this.state.playerBPlay ? (
+            <div>
+              <h1>Play the Pattern Back!</h1>
+              <button onClick={this.handleSubmitAttempt}>SUBMIT YOUR ATTEMPT</button>
+              {
+                this.state.patternAttempt
+              }
+            </div>  
+          ) : (
+            null
+          )
+        }
         </h1>
-        <Simon pushPattern={this.pushPattern} playerA={this.state.playerA} lit={this.state.lit}/>
+        <Simon
+          pushPatternAttempt={this.pushPatternAttempt}
+          pushPattern={this.pushPattern}
+          playerA={this.state.playerA}
+          lit={this.state.lit} />
       </div>
     );
   }
